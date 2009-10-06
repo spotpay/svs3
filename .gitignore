@@ -1,3 +1,4 @@
-bin
-flex-bin
-bin-debug
+bin/
+flex-bin/
+bin-debug/
+public/
