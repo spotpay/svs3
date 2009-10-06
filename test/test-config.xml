@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<flex-config>
+<!--***************************************************************************************************	
+	**** BEGIN MUSICANE DEV EDIT REGION - ONLY EDIT FIELDS WITHIN THIS REGION!!! **********************
+	
+		The ANT build.xml is set up to use this file for all options except when noted in the comments.
+		Do not make modifications to the ANT script.
+		Write to Jack or Kale if you ever feel like you have to edit the ANT script.-->
+		
+<!--***************************************************************************************************-->	
+	
+	<!-- **** RSL LOADING ****
+		The runtime-shared-libraries option specifies files that will be loaded as an RSL at runtime
+		Each runtime shared library should have a path-element and matching rsl-url tag. 
+		path-element points to the location of the SWC in your environment to complie against
+		rsl-url is the remote path to the swf which will be loaded at runtime. 
+		The static-link-runtime-shared-libraries overrides this behavior and includes the SWC files listed 
+	-->
+	<!--
+	<runtime-shared-library-path>
+		<path-element>${flexlib}/libs/framework.swc</path-element>
+		<rsl-url>http://www.musicane.com/swf/framework_3.2.0.3958.swz</rsl-url>
+	</runtime-shared-library-path>
+	-->
+    <!--<static-link-runtime-shared-libraries>false</static-link-runtime-shared-libraries>-->
+	
+    <compiler>
+		
+		<!-- **** SOURCE PATH DEFINITION ****
+			Default Source paths are set up in build.xml. 
+			Use this if you need to add extra sources which are project specific.
+			This is used for .as or .mxml files that you have locally that you wish to 
+			include in this project, not .swc files. 
+			Do not edit the ANT script if you need to add extra source paths.
+		-->	
+		<!--
+		<source-path>
+			<path-element>${flexlib}/string</path-element>
+		</source-path>
+		-->
+		
+		<!-- **** LIBRARY PATH DEFINITION ****
+			List of SWC files or directories that contain SWC files. This will only add parts of the SWC that you use.
+			For all projects the local libs folder is included by default. You should not need to edit this. 
+			If you need to add extra SWC files to the project, drop them in the libs directory of your project. 
+			Do not edit the ANT script if you need to add extra libs.
+		-->
+		<library-path>
+			<path-element>${flexlib}/locale/en_US</path-element>
+			<path-element>${flexlib}/libs/air/airglobal.swc</path-element>
+			<path-element>${flexlib}/libs/framework.swc</path-element>			
+			<path-element>libs</path-element>
+		</library-path>
+		
+		<!-- **** EXTERNAL LIBRARY PATH DEFINITION **** 
+			List of SWC files or directories to compile against but to omit from linking.
+			This option will allow you to compile projects which reference classes in the defined SWC files
+			without incurring any size penalty. However this project will need to be loaded into a parent
+			or parent chain which has inlcuded these libraries or there will be runtime errors. 
+		-->
+		<external-library-path>
+			<path-element>${flexlib}/libs/player/{targetPlayerMajorVersion}/playerglobal.swc</path-element>
+		</external-library-path>
+      
+		<!-- **** DEBUG MODE **** 
+			Turn on generation of debuggable SWFs. False by default for mxmlc, but true by default for compc.
+		-->
+		<debug>false</debug>
+		
+		<!-- verbose-stacktraces turns on the display of stack traces for uncaught runtime errors. 
+			Adds about 50k, turn off for production
+		-->
+		<verbose-stacktraces>false</verbose-stacktraces>
+		
+		<!-- List of CSS or SWC files to apply as a theme.
+		<theme>
+			<filename>string</filename>
+			<filename>string</filename>
+		</theme>
+		-->
+		
+<!--****************************************************************************-->		
+<!--**** END OF MUSICANE DEV EDIT REGION - DO NOT EDIT BEYOND THIS POINT!!! ****-->
+<!--****************************************************************************-->		
+		
+		<!--
+		<include-libraries>
+			<library></library>
+		</include-libraries>
+		-->
+		
+		<!-- Run the compiler in strict error checking mode -->
+		<strict>true</strict>
+		
+		<keep-generated-actionscript>false</keep-generated-actionscript>
+		<allow-source-path-overlap>true</allow-source-path-overlap>
+		<show-actionscript-warnings>false</show-actionscript-warnings>
+		
+		<namespaces>
+			<namespace>
+				<uri>http://www.adobe.com/2006/mxml</uri>
+				<manifest>${flexlib}/mxml-manifest.xml</manifest>
+			</namespace>
+		</namespaces>
+		
+		<optimize>true</optimize>
+		
+		<keep-as3-metadata>
+          <name>Bindable</name>
+          <name>Managed</name>
+          <name>ChangeEvent</name>
+          <name>NonCommittingChangeEvent</name>
+          <name>Transient</name>
+          <name>Event</name>
+		</keep-as3-metadata>
+		<show-binding-warnings>false</show-binding-warnings>
+		<show-unused-type-selector-warnings>false</show-unused-type-selector-warnings>
+		<as3>true</as3>
+		<es>false</es>
+		
+		<!-- Defines the AS3 file encoding.
+		<actionscript-file-encoding></actionscript-file-encoding>
+		-->
+		
+		<fonts>
+			<advanced-anti-aliasing>true</advanced-anti-aliasing>
+			<max-cached-fonts>20</max-cached-fonts>          
+			<max-glyphs-per-face>1000</max-glyphs-per-face>
+			<!--
+			<languages>
+				<language-range>
+					<lang>englishRange</lang>
+					<range>U+0020-U+007E</range>
+				</language-range>
+			</languages>
+			-->
+			<managers>
+				<manager-class>flash.fonts.JREFontManager</manager-class>
+				<manager-class>flash.fonts.AFEFontManager</manager-class>
+				<manager-class>flash.fonts.BatikFontManager</manager-class>
+			</managers>
+			<!--
+			<local-fonts-snapshot>localFonts.ser</local-fonts-snapshot>
+			-->
+		</fonts>
+		
+		<warn-array-tostring-changes>false</warn-array-tostring-changes>
+		<warn-assignment-within-conditional>true</warn-assignment-within-conditional>
+		<warn-bad-array-cast>true</warn-bad-array-cast>
+		<warn-bad-bool-assignment>true</warn-bad-bool-assignment>
+		<warn-bad-date-cast>true</warn-bad-date-cast>
+		<warn-bad-es3-type-method>true</warn-bad-es3-type-method>
+		<warn-bad-es3-type-prop>true</warn-bad-es3-type-prop>
+		<warn-bad-nan-comparison>true</warn-bad-nan-comparison>
+		<warn-bad-null-assignment>true</warn-bad-null-assignment>
+		<warn-bad-null-comparison>true</warn-bad-null-comparison>
+		<warn-bad-undefined-comparison>true</warn-bad-undefined-comparison>
+		<warn-boolean-constructor-with-no-args>false</warn-boolean-constructor-with-no-args>
+		<warn-changes-in-resolve>false</warn-changes-in-resolve>
+		<warn-class-is-sealed>true</warn-class-is-sealed>
+		<warn-const-not-initialized>true</warn-const-not-initialized>  
+		<warn-constructor-returns-value>false</warn-constructor-returns-value>
+		<warn-deprecated-event-handler-error>false</warn-deprecated-event-handler-error>
+		<warn-deprecated-function-error>true</warn-deprecated-function-error>
+		<warn-deprecated-property-error>true</warn-deprecated-property-error>
+		<warn-duplicate-argument-names>true</warn-duplicate-argument-names>      
+		<warn-duplicate-variable-def>true</warn-duplicate-variable-def>
+		<warn-for-var-in-changes>false</warn-for-var-in-changes>
+		<warn-import-hides-class>true</warn-import-hides-class>
+		<warn-instance-of-changes>true</warn-instance-of-changes>
+		<warn-internal-error>true</warn-internal-error>
+		<warn-level-not-supported>true</warn-level-not-supported>
+		<warn-missing-namespace-decl>true</warn-missing-namespace-decl>
+		<warn-negative-uint-literal>true</warn-negative-uint-literal>
+		<warn-no-constructor>false</warn-no-constructor>
+		<warn-no-explicit-super-call-in-constructor>false</warn-no-explicit-super-call-in-constructor>
+		<warn-no-type-decl>true</warn-no-type-decl>
+		<warn-number-from-string-changes>false</warn-number-from-string-changes>
+		<warn-scoping-change-in-this>false</warn-scoping-change-in-this>
+		<warn-slow-text-field-addition>true</warn-slow-text-field-addition>
+		<warn-unlikely-function-value>true</warn-unlikely-function-value>
+		<warn-xml-class-has-changed>false</warn-xml-class-has-changed>
+		<accessible>false</accessible>
+		<locale>
+			<locale-element>en_US</locale-element>
+		</locale>		
+	</compiler>
+	
+	<!-- Specifies the minimum player version that will run the compiled SWF. -->
+	<target-player>9.0.124</target-player>
+	
+	<!-- compute-digest: writes a digest to the catalog.xml of a library. Use this when the library will be used as cross-domain rsl.-->
+	<!-- compute-digest usage:-->
+	<!--<compute-digest>true</compute-digest>-->
+
+	<!-- Enables SWFs to access the network. -->
+	<use-network>true</use-network>
+
+	<!-- licenses: specifies a list of product and serial number pairs. 
+	<licenses>
+		<license>
+			<product>string</product>
+			<serial-number>number</serial-number>
+		</license>
+	</licenses>
+	-->
+	
+	<!-- Metadata added to SWFs via the SWF Metadata tag. -->
+	<metadata>
+		<title>SVS3Test</title>
+		<description>http://www.musicane.com</description>
+		<publisher>Musicane</publisher>
+		<creator>Jack Bishop</creator>
+		<contributor>Kale McNaney</contributor>
+		<contributor>Saurav Sinha</contributor>
+		<language>EN</language>
+	</metadata>
+</flex-config>

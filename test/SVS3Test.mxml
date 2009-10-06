@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<fab:AirApplication
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:fab="org.puremvc.as3.multicore.utilities.fabrication.components.*"
+	xmlns:flexui="flexunit.flexui.*"
+	width="100%"
+	height="100%"
+	invoke="{onInvoke(event)}">
+	
+	<mx:Script>
+		<![CDATA[
+			import controller.UnitTestsStartupCommand;
+			import flexunit.framework.TestSuite;
+			import flexunit.junit.JUnitTestRunnerAIR;
+			import flash.events.InvokeEvent;
+			import Tests.*;
+			
+			
+			private var runner:JUnitTestRunnerAIR;
+			
+			override public function getStartupCommand():Class
+			{
+				return UnitTestsStartupCommand;
+			}
+			
+			override public function getClassByName(classpath:String):Class
+			{
+				return getDefinitionByName(classpath) as Class;
+			}
+			
+			private function onInvoke(event:InvokeEvent):void
+			{
+				var outputDirPath:String = event.arguments[0];				
+				runner = new JUnitTestRunnerAIR();
+				runner.start(createSuite(), event.currentDirectory.resolvePath(outputDirPath));
+			}
+			
+			private function createSuite():TestSuite
+			{
+				var ts:TestSuite = new TestSuite();
+				
+				//***************** ADD TESTS HERE ********************
+				ts.addTest(new TestSuite(BuildTest));
+				ts.addTest(new TestSuite(CampaignTest));
+				ts.addTest(new TestSuite(ProductTest));
+				ts.addTest(new TestSuite(ArtistTest));				
+				
+				return ts;
+			}
+		]]>
+	</mx:Script>
+	
+</fab:AirApplication>

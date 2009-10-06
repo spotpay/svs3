@@ -1,24 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?>
-<project name="SVS3" basedir=".">
- 	<property name="PROJECT_NAME" value="SVS3"/>
-	<!-- please verify the flex sdk directory path-->
-	<property name="FLEX_HOME" value="/Applications/Adobe Flex Builder 3/sdks/3.4.0"/>
-	<property name="APP_ROOT" value="${basedir}/app"/>
-	<property name="output" value="${basedir}/bin/${PROJECT_NAME}.swf"/>
+<?xml version="1.0"?>
+<project name="SVS3" default="build">
 	
-	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
-	  
- 	<target name="build" depends="clean">
- 		<mxmlc
-			output="${output}"
-			file="${APP_ROOT}/${PROJECT_NAME}.mxml">
-			<!-- Get default compiler options-->
-			<load-config filename="${basedir}/flex-config.xml"/>
-			<source-path path-element="${APP_ROOT}" />
+	<!-- Environment-->
+	<property name="FLEX_HOME" value="C:/Program Files/Adobe/Flex 3 SDK" />
+	<property name="adl" location="${FLEX_HOME}/bin/adl.exe" />
+	
+	<!-- Import Flex ANT Tasks -->
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />	
+	
+	<!-- Application Compiler Info -->
+	<property name="app.name" value="SVS3"/>
+	<property name="app.output.dir" value="${basedir}/bin"/>
+	<property name="app.output.file" value="${app.name}.swf"/>
+	<property name="app.src.dir" value="${basedir}/app" />
+	
+	<!-- Unit Testing Compiler Info -->
+	<property name="test.dir" value="${basedir}/test" />
+	<property name="test.app.name" value="${app.name}Test"/>
+	<property name="test.app.descriptor" value="${test.dir}/UnitTests-app.xml"/>
+	<property name="test.output.dir" value="${test.dir}/bin"/>
+	<property name="test.output.file" value="${test.app.name}.swf"/>
+	<property name="test.reports.dir" value="${test.dir}/reports" />
+	
+	
+	<!-- BUILD TARGETS
+		These are the only targets that should be called from the CMD/Terminal and do the following: 
+		
+		Test: Compiles the App, the Test App, runs all Tests and generates Reports in the test.reports.dir
+		Build: Compiles the Application
+		Publish: Compiles the Application and copies it to the published location on localhost
+	-->
+	<target name="test" depends="clean, compile-test, run-tests, generate-reports"/>
+	<target name="build" depends="clean, compile" />
+	<target name="publish" depends="clean, compile, copy" />
+	
+	<!-- Delete artifacts from previous builds -->
+	<target name="clean">
+		<delete dir="${test.output.dir}"/>
+		<delete dir="${app.output.dir}"/>
+		<delete dir="${test.reports.dir}"/>
+	</target>
+	
+	<!-- Compile the application -->
+	<target name="compile">
+		<mxmlc file="${basedir}/app/${app.name}.as"
+			locale="en_US"
+			debug="false"
+			output="${app.output.dir}/${app.output.file}"
+			actionscript-file-encoding="UTF-8">
+			<load-config filename="${basedir}/app-config.xml"/>
+			<source-path path-element="${app.src.dir}" />
 		</mxmlc>
 	</target>
-  
-	<target name="clean">
-		<delete dir="${basedir}/bin"/>
+	
+	<!-- Copy the App output to the Localhost publish folder -->
+	<target name="copy">
+		<copy file="${app.output.dir}/${app.output.file}" tofile="${app.publish.dir}/${app.output.file}" overwrite="true"/>
+	</target>
+	
+	<!-- Compile the test application -->
+	<target name="compile-test">
+		<mxmlc 
+			file="${test.dir}/${test.app.name}.mxml"
+			locale="en_US"
+			debug="true"
+			configname="air"
+			output="${test.output.dir}/${test.app.name}.swf"
+			show-actionscript-warnings="false"
+			actionscript-file-encoding="UTF-8">
+			<source-path path-element="${test.dir}" />
+			<source-path path-element="${app.src.dir}" />
+			<load-config filename="${test.dir}/test-config.xml"/>
+		</mxmlc>
+	</target>
+
+	<!-- Run all tests specified in the base file for the test app -->
+	<target name="run-tests">
+		<mkdir dir="${test.reports.dir}"/>
+		<exec executable="${adl}" failonerror="false">
+			<arg line="${test.app.descriptor}"/>
+			<arg line="-- '${test.reports.dir}'"/>
+		</exec>
+	</target>
+	
+	<!-- Generate testing reports -->
+	<target name="generate-reports">
+		<junitreport todir="${test.reports.dir}">
+			<fileset dir="${test.reports.dir}">
+				<include name="*_TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${test.reports.dir}/html"/>
+		</junitreport>
 	</target>
 </project>
