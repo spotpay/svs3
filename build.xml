@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="SVS3" basedir=".">
+ 	<property name="PROJECT_NAME" value="SVS3"/>
+	<!-- please verify the flex sdk directory path-->
+	<property name="FLEX_HOME" value="/Applications/Adobe Flex Builder 3/sdks/3.4.0"/>
+	<property name="APP_ROOT" value="${basedir}/app"/>
+	<property name="output" value="${basedir}/bin/${PROJECT_NAME}.swf"/>
+	
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+	  
+ 	<target name="build" depends="clean">
+ 		<mxmlc
+			output="${output}"
+			file="${APP_ROOT}/${PROJECT_NAME}.mxml">
+			<!-- Get default compiler options-->
+			<load-config filename="${basedir}/flex-config.xml"/>
+			<source-path path-element="${APP_ROOT}" />
+		</mxmlc>
+	</target>
+  
+	<target name="clean">
+		<delete dir="${basedir}/bin"/>
+	</target>
+</project>
