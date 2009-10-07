@@ -1,0 +1,21 @@
+= SVS3: Sell digital song downloads from music videos!
+
+== Description
+
+A lower-third engagement interface that aims to advertise a single digital song product while someone is watching a music video for that song.
+
+== Getting Started
+
+=== Install the selenium-ruby gem
+
+@gem install Selenium@
+
+*Note* the caps on the 'S' in Selenium
+
+=== Install sinatra
+
+@gem install sinatra@
+
+=== Run the tests
+
+* ruby sinatra_test_rig.rb
