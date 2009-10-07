@@ -7,20 +7,14 @@ namespace :selenium do
   
   desc "boot selenium"
   task :boot do
-    PIDS << Kernel.fork do
-      exec("java -jar #{ENV['SELENIUM_JAR']}")
-    end
-#    PIDS << $?.pid
+    start_process "java -jar \"#{ENV['SELENIUM_JAR']}\""
   end
 end
 
 namespace :sinatra do
   desc "boot sinatra"
   task :boot do
-    PIDS << Kernel.fork do
-      exec("ruby sinatra_test_rig.rb")
-    end
-#    PIDS << $?.pid
+    start_process "ruby sinatra_test_rig.rb"
   end
 end
 
@@ -29,7 +23,9 @@ namespace :test do
   task :selenium do
      %w(selenium:boot sinatra:boot).each { |t| Rake::Task[t].execute }
     system("ruby test/selenium/load_test.rb")
-    PIDS.each{|p| `kill #{p}`}
+    PIDS.each{|p| `kill #{p}`} if os_family == "unix"
+    `taskkill /IM java.exe` if os_family == "windows"
+    `taskkill /IM ruby.exe` if os_family == "windows"
   end
 end
 
@@ -60,5 +56,24 @@ namespace :git do
       end
     end
     
+  end
+end
+
+def start_process(command)
+  PIDS << Kernel.fork do
+      exec(command)
+  end if os_family == "unix"
+  puts command
+  system("start #{command}") if os_family == "windows"
+end
+
+def os_family
+  case RUBY_PLATFORM
+    when /ix/i, /ux/i, /gnu/i, /sysv/i, /solaris/i, /sunos/i, /bsd/i, /darwin/i
+      "unix"
+    when /win/i, /ming/i
+      "windows"
+    else
+      "other"
   end
 end
