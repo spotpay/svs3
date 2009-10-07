@@ -16,6 +16,10 @@ A lower-third engagement interface that aims to advertise a single digital song 
 
 @gem install sinatra@
 
+=== Setup environment variables
+
+Add the @SELENIUM_JAR@ environment variable to point to the path of the Selenium 1.0.1 selenium-server.jar (*note* the value must point directly to the selenium-server.jar file)
+
 === Run the tests
 
-* ruby sinatra_test_rig.rb
+* rake test:selenium

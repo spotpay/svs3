@@ -22,8 +22,9 @@ namespace :test do
   desc "execute all selenium tests"
   task :selenium do
      %w(selenium:boot sinatra:boot).each { |t| Rake::Task[t].execute }
+     sleep 5
     system("ruby test/selenium/load_test.rb")
-    PIDS.each{|p| `kill #{p}`} if os_family == "unix"
+    PIDS.each{|p| `kill -s hup #{p}`} if os_family == "unix"
     `taskkill /IM java.exe` if os_family == "windows"
     `taskkill /IM ruby.exe` if os_family == "windows"
   end
@@ -60,10 +61,13 @@ namespace :git do
 end
 
 def start_process(command)
+  puts command
+  command.gsub!(/\"/, "") if os_family == "unix"
+  puts command
   PIDS << Kernel.fork do
       exec(command)
   end if os_family == "unix"
-  puts command
+  
   system("start #{command}") if os_family == "windows"
 end
 
