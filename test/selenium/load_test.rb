@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'test/unit'
 require 'selenium'
+require 'json'
 require File.expand_path(File.dirname(__FILE__) + "/./flash_test_helper")
 require File.expand_path(File.dirname(__FILE__) + "/./selenese_helper")
 
