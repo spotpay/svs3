@@ -25,8 +25,8 @@ namespace :test do
      sleep 5
     system("ruby test/selenium/load_test.rb")
     PIDS.each{|p| `kill -s hup #{p}`} if os_family == "unix"
-    `taskkill /IM java.exe` if os_family == "windows"
-    `taskkill /IM ruby.exe` if os_family == "windows"
+    `taskkill /F /IM java.exe` if os_family == "windows"
+    `taskkill /F /IM ruby.exe` if os_family == "windows"
   end
 end
 
