@@ -21,8 +21,8 @@ end
 namespace :test do
   desc "execute all selenium tests"
   task :selenium do
-     %w(selenium:boot sinatra:boot).each { |t| Rake::Task[t].execute }
-     sleep 5
+    %w(selenium:boot sinatra:boot).each { |t| Rake::Task[t].execute }
+    sleep 1
     system("ruby test/selenium/load_test.rb")
     PIDS.each{|p| `kill -s hup #{p}`} if os_family == "unix"
     `taskkill /F /IM java.exe` if os_family == "windows"

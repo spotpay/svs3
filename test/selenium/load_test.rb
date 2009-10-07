@@ -1,8 +1,18 @@
 require 'rubygems'
 require 'test/unit'
 require 'selenium'
+require File.expand_path(File.dirname(__FILE__) + "/./flash_test_helper")
+require File.expand_path(File.dirname(__FILE__) + "/./selenese_helper")
 
-class MyNewSeleniumTest < Test::Unit::TestCase
+
+class LoadTest < Test::Unit::TestCase
+  
+  include SeleneseHelper
+  include FlashTestHelper
+  
+  @@TestTimeout = 30*1000
+  @selenium
+  
   def setup
     @verification_errors = []
     if $selenium
@@ -12,7 +22,6 @@ class MyNewSeleniumTest < Test::Unit::TestCase
         4444, "*firefox", "http://localhost:4567", 10000);
       @selenium.start
     end
-    @selenium.set_context("test_new")
   end
   
   def teardown
@@ -21,7 +30,9 @@ class MyNewSeleniumTest < Test::Unit::TestCase
   end
   
   def test_new
-    @selenium.open "/test"
-    @selenium.wait_for_page_to_load "30000"
+    navigate("test")
+    #sleep 20000
   end
 end
+
+
