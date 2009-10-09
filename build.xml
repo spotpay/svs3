@@ -2,7 +2,8 @@
 <project name="SVS3" default="build">
 	
 	<!-- Environment-->
-	<property name="FLEX_HOME" value="C:/Program Files/Adobe/Flex 3 SDK" />
+	<property environment="env"/>
+	<property name="FLEX_HOME" value="${env.FLEX_HOME}" />
 	<property name="adl" location="${FLEX_HOME}/bin/adl.exe" />
 	
 	<!-- Import Flex ANT Tasks -->
@@ -20,6 +21,7 @@
 	<property name="test.app.descriptor" value="${test.dir}/UnitTests-app.xml"/>
 	<property name="test.output.dir" value="${test.dir}/bin"/>
 	<property name="test.output.file" value="${test.app.name}.swf"/>
+	<property name="test.publish.dir" value="${basedir}/public"/>
 	<property name="test.reports.dir" value="${test.dir}/reports" />
 	
 	
@@ -31,7 +33,7 @@
 		Publish: Compiles the Application and copies it to the published location on localhost
 	-->
 	<target name="test" depends="clean, compile-test, run-tests, generate-reports"/>
-	<target name="build" depends="clean, compile" />
+	<target name="build" depends="clean, compile, test-publish" />
 	<target name="publish" depends="clean, compile, copy" />
 	
 	<!-- Delete artifacts from previous builds -->
@@ -57,6 +59,10 @@
 	<target name="copy">
 		<copy file="${app.output.dir}/${app.output.file}" tofile="${app.publish.dir}/${app.output.file}" overwrite="true"/>
 	</target>
+	
+	<target name="test-publish">
+        <copy file="${app.output.dir}/${app.output.file}" tofile="${test.publish.dir}/${app.output.file}" overwrite="true"/>
+    </target>
 	
 	<!-- Compile the test application -->
 	<target name="compile-test">
