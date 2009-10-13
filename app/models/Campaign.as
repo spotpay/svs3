@@ -1,9 +1,6 @@
 package models
 {
-	
-	
 	import models.CrudModel;
-
 	
 	public class Campaign extends CrudModel
 	{
@@ -11,7 +8,7 @@ package models
 		public var start_date:String ;
 		public var end_date:String ;
 		public var asset_id:String ;
-		public var product:Product ;
+		public var product:Product = new Product() ;
 		
 		
 		public function Campaign()

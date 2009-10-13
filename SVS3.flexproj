@@ -5,9 +5,9 @@
     <ProjectGuid>13e8f6ed-e31e-4f9c-af20-c04299784d2c</ProjectGuid>
     <OutputType>FlexApplication</OutputType>
     <RootNamespace>SvsCrud</RootNamespace>
-    <AssemblyName>SvsCrud</AssemblyName>
-    <MainApplicationFile>src\SvsCrud.mxml</MainApplicationFile>
-    <SourcePath>src</SourcePath>
+    <AssemblyName>SVS3</AssemblyName>
+    <MainApplicationFile>app\SVS3.as</MainApplicationFile>
+    <SourcePath>app</SourcePath>
     <LibraryPath>
     </LibraryPath>
     <Name>SVS3</Name>
@@ -28,6 +28,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app\EmbeddedAssets.as">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\fl\motion\easing\Sine.as">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\gs\TweenLite.as">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\models\Artist.as">
@@ -52,6 +58,33 @@
     <Compile Include="test\Tests\mock\models\MockProduct.as">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="assets\animatedBleuBkg.fla">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\animatedBleuBkg.swf">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\bkgFadeIn.fla">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\bkgFadeIn.swf">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\blueSpotlight.fla">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\blueSpotlight.swf">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\SVS3.fla">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\symbols.fla">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="assets\symbols.swf">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="html-template\index.template.htm" />
     <Content Include="html-template\AC_OETags.js" />
     <Content Include="html-template\playerProductInstall.swf" />
@@ -79,7 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app" />
+    <Folder Include="app\fl" />
+    <Folder Include="app\fl\motion" />
+    <Folder Include="app\fl\motion\easing" />
+    <Folder Include="app\gs" />
     <Folder Include="app\models" />
+    <Folder Include="assets" />
     <Folder Include="bin" />
     <Folder Include="html-template" />
     <Folder Include="html-template\history" />
@@ -102,17 +140,18 @@
     <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneFramework-flex.swc" />
     <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneFramework-flex.swc" />
     <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneFramework-flex.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
-    <Reference Include="C:\Users\Jack\development\svs3\libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
+    <Reference Include="libs\MusicaneWeb.swc" />
   </ItemGroup>
   <PropertyGroup>
     <HtmlTemplate>html-template\index.template.htm</HtmlTemplate>

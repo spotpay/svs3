@@ -6,7 +6,7 @@ package models
 		
 	public class Artist extends CrudModel
 	{
-		public var name:String ;
+		public var name:String = "Yea Yea Yea" ;
 
 		public function Artist()
 		{

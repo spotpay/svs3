@@ -1,22 +1,16 @@
 package models
 {
-	
-	
-	
 	import models.CrudModel;
 	import models.Artist;
 
-	
-		
 	public class Product extends CrudModel
 	{
-
-		public var title:String ;
-		public var price:String ;
+		public var artist:Artist = new Artist();
+		public var album_title:String = "Album Album Album";
+		public var title:String = "Blah Blah Blah";
+		public var price:String  = "0.99";
 		public var musicane_product_id:String ;
-		public var img_url:String ;
-		public var artist:Artist ;
-		
+		public var img_url:String = "albumArt.jpg";
 		
 		public function Product()
 		{
@@ -31,9 +25,6 @@ package models
 			
 			artist = new Artist() ;
 			artist.Unmarshall(model.artist);			
-			
-			
-			
 		
 			/*
 			var rawData:String = String(model) ;

@@ -1,23 +1,48 @@
 package
 {
-	public class EmbeddedAssets
+	import flash.display.Sprite;
+	import flash.display.MovieClip;
+
+	public class EmbeddedAssets extends Sprite
 	{
+		
+		public var musicaneLogo;
+		public var buyButton;
+		public var close;
+		public var animatedBlueBkg:MovieClip;
+		public var bkgFadeIn:MovieClip;
+		public var blueSpotlight:MovieClip;
+
+		public function EmbeddedAssets():void
+		{
+			bkgFadeIn		= new BkgFadeIn() as MovieClip;
+			buyButton		= new BuyButton();
+			close			= new Close();
+			animatedBlueBkg = new AnimatedBlueBkg() as MovieClip;
+			musicaneLogo	= new MusicaneLogo();			
+		}
+		
+		public function SetBlueMask():void
+		{
+			blueSpotlight	= new BlueSpotlight() as MovieClip;
+		}
+
 		[Embed(source="../assets/symbols.swf", symbol="musicaneLogo")]
-		public static var MusicaneLogo:Class;
+		private var MusicaneLogo:Class;
 
 		[Embed(source="../assets/symbols.swf", symbol="buyButton")]
-		public static var BuyButton:Class;
+		private var BuyButton:Class;
 
 		[Embed(source="../assets/symbols.swf", symbol="close")]
-		public static var Close:Class;
+		private var Close:Class;
 
 		[Embed(source="../assets/animatedBleuBkg.swf")]
-		public static var AnimatedBlueBkg:Class;
+		private var AnimatedBlueBkg:Class;
 
 		[Embed(source="../assets/bkgFadeIn.swf")]
-		public static var BkgFadeIn:Class;
+		private var BkgFadeIn:Class;
 
 		[Embed(source="../assets/blueSpotlight.swf")]
-		public static var BlueSpotlight:Class;
+		private var BlueSpotlight:Class;
 	}
 }
