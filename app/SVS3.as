@@ -2,22 +2,21 @@ package
 {
 	import fl.motion.easing.Sine;
 	import flash.display.DisplayObject;
+	import flash.display.GradientType;
 	import flash.display.Loader;
 	import flash.display.MovieClip;	
-	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.MouseEvent;	
+	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.net.URLRequest;	
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import gs.TweenLite;
 	import models.Campaign;
 	import Web.WebConfig;
-	import flash.geom.Matrix;
-	import flash.display.GradientType;
-	import flash.geom.Point;
 
-	public class SVS3 extends Sprite
+	public class SVS3 extends MovieClip
 	{
 		//Embedded class
 		var ea:EmbeddedAssets;
@@ -35,7 +34,7 @@ package
 		var bkg:MovieClip;
 		var blueBkg:MovieClip;
 		var blackBkg:MovieClip;
-		var bkgMask:Sprite;
+		var bkgMask:MovieClip;
 
 		// -- Meta
 		var coverArt:MovieClip;
@@ -57,14 +56,19 @@ package
 
 		var widgetPayApiUrl:String = WebConfig.Get().ServiceUrl+"/WidgetPayApi.swf";
 		var widgetPayApi:DisplayObject = null;
-		
+		var addedToStage:Boolean = false;
+
 		public function SVS3():void
 		{
-			addEventListener(Event.ADDED_TO_STAGE, build);
+			addEventListener(Event.ADDED_TO_STAGE, handleAdded);
 			loadWidgetPayApi();
 		}
+		
+		public function onVideoComplete():void
+		{
+			quickHide();
+		}
 
-		//loads the widgetPayApi Swf
 		private function loadWidgetPayApi():void
 		{
 			var loader:Loader = new Loader();
@@ -75,11 +79,53 @@ package
 		private function loadWidgetPayApiComplete(e:Event):void
 		{
 			widgetPayApi = e.target.loader.content;
+			
+			widgetPayApi.addEventListener(Event.CANCEL, handleApiCancel);
+			widgetPayApi.addEventListener(Event.COMPLETE, handleApiComplete);
+			widgetPayApi.addEventListener(Event.INIT, handleApiInit);
 			addChild(widgetPayApi);
+
+			if(addedToStage)
+			{
+				build();
+			}
+		}
+		
+		private function handleApiInit(e:Event):void
+		{
+			dispatchEvent(new Event("init"));
+		}		
+	
+		private function handleApiCancel(e:Event):void
+		{
+			quickShow();
+			dispatchCompleteEvent();
+		}
+
+		private function handleApiComplete(e:Event):void
+		{
+			dispatchCompleteEvent();
+		}
+		
+		private function dispatchCompleteEvent():void
+		{
+			dispatchEvent(new Event("complete"));
+		}
+
+		private function handleAdded(e:Event):void
+		{
+			if(widgetPayApi != null)
+			{
+				build();
+			}
+			else
+			{
+				addedToStage = true;
+			}
 		}
 
 		//Build fluid interface
-		private function build(e:Event):void
+		private function build():void
 		{
 			ea = new EmbeddedAssets();
 			
@@ -150,8 +196,29 @@ package
 			addChild(inMask);
 			inState.mask = inMask;
 			
+			//Build Pill
+			pill = new MovieClip();
+			
+			playButton = ea.playButton;
+			playButton.x = 92;
+			playButton.y = 5;
+			playButton.addEventListener(MouseEvent.CLICK, showAd);
+		
+			buySong = ea.buySong;
+			buySong.x = 15;
+			buySong.y = 5;
+			buySong.addEventListener(MouseEvent.CLICK, addToCart);
+
+			pill.addChild(ea.pill);
+			pill.addChild(buySong);
+			pill.addChild(playButton);
+		
+			pill.x = -(pill.width);
+			pill.y = 40;
+		
+			addChild(pill);
+
 			loadFeedable();
-			//playIntro();
 		}
 		
 		private function loadFeedable():void
@@ -242,6 +309,22 @@ package
 
 			playIntro();
 		}
+		
+		private function quickHide():void
+		{
+			inState.cacheAsBitmap = true;
+			inMask.cacheAsBitmap = true;
+
+			TweenLite.to(inMask, .2, {alpha:0});
+		}
+		
+		private function quickShow():void
+		{			
+			inState.cacheAsBitmap = true;
+			inMask.cacheAsBitmap = true;
+
+			TweenLite.to(inMask, .2, {alpha:1});
+		}
 
 		private function hideAd(e:MouseEvent):void
 		{
@@ -250,37 +333,6 @@ package
 		
 		// VARIOUS SHOW ANIMATION LOGIC STARTS HERE
 		
-		//Feathered wipe, no fade
-		public function showAd(e:Event = null):void
-		{			
-			bkgMask.height = 65;
-			bkgMask.y = 20;
-			
-			inMask.y = 0;
-			inMask.visible = false;
-
-			var rad:Number = 270*Math.PI/180;
-			var what_is_the_matrix:Matrix = new Matrix()
-			what_is_the_matrix.createGradientBox(bkgMask.width, 85, rad);
-
-			showMask = new MovieClip();
-			showMask.graphics.beginGradientFill(GradientType.LINEAR, [0x000000, 0x000000, 0x000000], [1,1,0], [0,220,255], what_is_the_matrix);
-			showMask.graphics.drawRect(0,0, bkgMask.width, 85);
-			
-			var yVal:int = (this.parent is Loader) ? this.parent.y : this.y;
-			showMask.y = yVal + 85;
-
-			inState.addChild(showMask);			
-			inState.cacheAsBitmap = true;
-			showMask.cacheAsBitmap = true;
-			
-			inState.mask = showMask;
-
-			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
-			TweenLite.to(showMask, .5, {y:yVal, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
-		}
-		
-		/*
 		//Fade in + Wipe with Feathered Edge
 		public function showAd(e:Event = null):void
 		{			
@@ -314,6 +366,39 @@ package
 			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
 			TweenLite.to(showMask, .5, {y:yVal, alpha:1, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
 		}
+		
+		/*
+		
+		//Feathered wipe, no fade
+		public function showAd(e:Event = null):void
+		{			
+			bkgMask.height = 65;
+			bkgMask.y = 20;
+			
+			inMask.y = 0;
+			inMask.visible = false;
+
+			var rad:Number = 270*Math.PI/180;
+			var what_is_the_matrix:Matrix = new Matrix()
+			what_is_the_matrix.createGradientBox(bkgMask.width, 85, rad);
+
+			showMask = new MovieClip();
+			showMask.graphics.beginGradientFill(GradientType.LINEAR, [0x000000, 0x000000, 0x000000], [1,1,0], [0,220,255], what_is_the_matrix);
+			showMask.graphics.drawRect(0,0, bkgMask.width, 85);
+			
+			var yVal:int = (this.parent is Loader) ? this.parent.y : this.y;
+			showMask.y = yVal + 85;
+
+			inState.addChild(showMask);			
+			inState.cacheAsBitmap = true;
+			showMask.cacheAsBitmap = true;
+			
+			inState.mask = showMask;
+
+			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
+			TweenLite.to(showMask, .5, {y:yVal, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
+		}
+
 		
 		//Fade in + wipe with Hard Edge
 		public function showAd(e:Event = null):void
@@ -381,29 +466,7 @@ package
 		}
 
 		private function playHide():void
-		{
-			//Build Pill
-			pill = new MovieClip();
-			
-			playButton = ea.playButton;
-			playButton.x = 92;
-			playButton.y = 5;
-			playButton.addEventListener(MouseEvent.CLICK, showAd);
-		
-			buySong = ea.buySong;
-			buySong.x = 15;
-			buySong.y = 5;
-			buySong.addEventListener(MouseEvent.CLICK, addToCart);
-
-			pill.addChild(ea.pill);
-			pill.addChild(buySong);
-			pill.addChild(playButton);
-		
-			pill.x = -(pill.width);
-			pill.y = 40;
-
-			addChild(pill);
-			
+		{				
 			//Scripted Hide animation queue
 			TweenLite.to(bkgMask, .4, {y:5, height:80});
 			TweenLite.to(inMask, .2, {y:85, delay:.3, ease:Sine.easeIn});
@@ -484,6 +547,7 @@ package
 
 		public function addToCart(e:MouseEvent):void
 		{
+			quickHide();
 			var obj:Object = {a:"hi"};
 			Object(widgetPayApi).AddToCartAndCheckout(obj);
 		}
