@@ -13,8 +13,9 @@ package
 	import gs.TweenLite;
 	import models.Campaign;
 	import Web.WebConfig;
-	import mx.skins.halo.TitleBackground;
-	import mx.controls.Text;
+	import flash.geom.Matrix;
+	import flash.display.GradientType;
+	import flash.geom.Point;
 
 	public class SVS3 extends Sprite
 	{
@@ -28,6 +29,7 @@ package
 		// -- Parent
 		var inState:MovieClip;
 		var inMask:MovieClip;
+		var showMask:MovieClip;
 
 		// -- Background
 		var bkg:MovieClip;
@@ -47,6 +49,11 @@ package
 		var closeAd;
 		var buy;
 		var logo;
+
+		// -- Pill
+		var pill:MovieClip;
+		var playButton;
+		var buySong;		
 
 		var widgetPayApiUrl:String = WebConfig.Get().ServiceUrl+"/WidgetPayApi.swf";
 		var widgetPayApi:DisplayObject = null;
@@ -97,7 +104,7 @@ package
 			bkgMask.graphics.beginFill(0xFF0000);
 			bkgMask.graphics.drawRect(0,0,stage.stageWidth, 65);
 			bkgMask.y = 20;
-			
+
 			//Add BKG and Mask to inState
 			inState.addChild(bkg);
 			inState.addChild(bkgMask);
@@ -146,7 +153,7 @@ package
 			loadFeedable();
 			//playIntro();
 		}
-
+		
 		private function loadFeedable():void
 		{
 			campaign = new Campaign();
@@ -240,31 +247,171 @@ package
 		{
 			playHide();
 		}
-
-		private function showAd(e:MouseEvent):void
-		{
+		
+		// VARIOUS SHOW ANIMATION LOGIC STARTS HERE
+		
+		//Feathered wipe, no fade
+		public function showAd(e:Event = null):void
+		{			
+			bkgMask.height = 65;
+			bkgMask.y = 20;
 			
+			inMask.y = 0;
+			inMask.visible = false;
+
+			var rad:Number = 270*Math.PI/180;
+			var what_is_the_matrix:Matrix = new Matrix()
+			what_is_the_matrix.createGradientBox(bkgMask.width, 85, rad);
+
+			showMask = new MovieClip();
+			showMask.graphics.beginGradientFill(GradientType.LINEAR, [0x000000, 0x000000, 0x000000], [1,1,0], [0,220,255], what_is_the_matrix);
+			showMask.graphics.drawRect(0,0, bkgMask.width, 85);
+			
+			var yVal:int = (this.parent is Loader) ? this.parent.y : this.y;
+			showMask.y = yVal + 85;
+
+			inState.addChild(showMask);			
+			inState.cacheAsBitmap = true;
+			showMask.cacheAsBitmap = true;
+			
+			inState.mask = showMask;
+
+			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
+			TweenLite.to(showMask, .5, {y:yVal, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
+		}
+		
+		/*
+		//Fade in + Wipe with Feathered Edge
+		public function showAd(e:Event = null):void
+		{			
+			bkgMask.height = 65;
+			bkgMask.y = 20;
+		
+			inMask.y = 0;
+			inMask.visible = false;
+
+			var rad:Number = 270*Math.PI/180;
+			var what_is_the_matrix:Matrix = new Matrix()
+			what_is_the_matrix.createGradientBox(bkgMask.width, 85, rad);
+
+			showMask = new MovieClip();
+			showMask.graphics.beginGradientFill(GradientType.LINEAR, [0x000000, 0x000000, 0x000000], [1,1,0], [0,220,255], what_is_the_matrix);
+			showMask.graphics.drawRect(0,0, bkgMask.width, 100);
+			
+			var yVal:int = (this.parent is Loader) ? this.parent.y : this.y;
+
+			showMask.y = yVal + 60;
+			showMask.alpha = 0;
+
+			inState.addChild(showMask);			
+			
+			inState.cacheAsBitmap = true;
+			showMask.cacheAsBitmap = true;
+			
+			//inState.mask = null;
+			inState.mask = showMask;
+
+			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
+			TweenLite.to(showMask, .5, {y:yVal, alpha:1, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
+		}
+		
+		//Fade in + wipe with Hard Edge
+		public function showAd(e:Event = null):void
+		{			
+			bkgMask.height = 65;
+			bkgMask.y = 20;
+			
+			inMask.y = 85;
+			inMask.alpha = 0;
+			
+			inState.cacheAsBitmap = true;
+			inMask.cacheAsBitmap = true;
+			
+			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
+			TweenLite.to(inMask, .5, {y:0, alpha:1, delay:.4});
+		}
+		
+		//Fade in no wipe
+		public function showAd(e:Event = null):void
+		{			
+			bkgMask.height = 65;
+			bkgMask.y = 20;
+			
+			inMask.y = 0;
+			inMask.alpha = 0;
+			
+			inState.cacheAsBitmap = true;
+			inMask.cacheAsBitmap = true;
+			
+			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
+			TweenLite.to(inMask, .5, {alpha:1, delay:.4});
+		}
+			
+		
+		//Straight wipe, no fade
+		public function showAd(e:Event = null):void
+		{			
+			bkgMask.height = 65;
+			bkgMask.y = 20;
+			
+			inMask.y = 85;
+			
+			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
+			TweenLite.to(inMask, .5, {y:0, delay:.4});
+		}
+		*/
+		
+		private function resetMask():void
+		{
+			showMask.visible = false;
+			inMask.visible = true;
+	
+			inState.mask = null;
+			inState.mask = inMask;
 		}
 
 		private function playIntro():void
 		{
-			//Scripted animation queue
+			//Scripted Intro animation queue
 			TweenLite.to(blackBkg, .5, {x:-245, onComplete:playBlue});		
 			TweenLite.to(coverArt, .3, {y:10, delay:1, ease:coverEase});
-			TweenLite.to(textMask, .5, {alpha:1, delay:1.3, ease:coverEase});		
+			TweenLite.to(textMask, .5, {alpha:1, delay:1.3});		
 			TweenLite.to(buy, .3, {alpha:1, delay:1.6});
 			TweenLite.to(closeAd, .2, {alpha:1, delay:1.9, onComplete:finalizeInterface});
 		}
 
 		private function playHide():void
 		{
+			//Build Pill
+			pill = new MovieClip();
+			
+			playButton = ea.playButton;
+			playButton.x = 92;
+			playButton.y = 5;
+			playButton.addEventListener(MouseEvent.CLICK, showAd);
+		
+			buySong = ea.buySong;
+			buySong.x = 15;
+			buySong.y = 5;
+			buySong.addEventListener(MouseEvent.CLICK, addToCart);
+
+			pill.addChild(ea.pill);
+			pill.addChild(buySong);
+			pill.addChild(playButton);
+		
+			pill.x = -(pill.width);
+			pill.y = 40;
+
+			addChild(pill);
+			
+			//Scripted Hide animation queue
 			TweenLite.to(bkgMask, .4, {y:5, height:80});
 			TweenLite.to(inMask, .2, {y:85, delay:.3, ease:Sine.easeIn});
+			TweenLite.to(pill, .3, {x:0, delay:.6, ease:Sine.easeOut});		
 		}
 
 		private function playBlue():void
 		{
-			
 			//Create BlueBkg
 			blueBkg = ea.animatedBlueBkg;
 			
@@ -285,10 +432,35 @@ package
 			//Set mask
 			blueBkg.mask = blueMask;
 			
+			//Create Mirrored blue
+			var mirrorBlue:MovieClip = blueFlipVertical();
+			mirrorBlue.y = 20;
+			mirrorBlue.x = blueBkg.x;
+
 			//addChildren
 			bkg.addChildAt(blueBkg, 1);
-			bkg.addChildAt(blueMask, 2);
+			bkg.addChildAt(mirrorBlue, 2);
+			bkg.addChildAt(blueMask, 3);
 		}
+		
+		function blueFlipVertical():MovieClip
+		{
+			var dsp:MovieClip = new ea.AnimatedBlueBkg as MovieClip;
+			var matrix:Matrix = dsp.transform.matrix;
+			matrix.transformPoint(new Point(dsp.width/2,dsp.height/2));
+			if(matrix.d>0){
+				matrix.d=-1*matrix.d;
+				matrix.ty=dsp.y+dsp.height;
+			}
+			else
+			{
+				matrix.d=-1*matrix.d;
+				matrix.ty=dsp.y-dsp.height;
+			}
+			dsp.transform.matrix=matrix;
+			return dsp;
+		}
+	
 
 		private function finalizeInterface():void
 		{
