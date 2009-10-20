@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sinatra'
+require 'json'
 
 valid_campaign = <<doc
 	{
@@ -39,6 +40,6 @@ end
 # curl http://localhost:4567/campaigns/123_456
 #get "/campaigns/:publisher_id-asset_id" do
 get "/campaigns/:publisherid_assetid" do	#<publisher_id>_<asset_id> tokenized component
-	#return valid_campaign under all conditions.
-	valid_campaign 
+	content_type :json
+	valid_campaign 				#return valid_campaign under all conditions.
 end
