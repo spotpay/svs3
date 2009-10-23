@@ -3,6 +3,9 @@
 
 PIDS=[]
 
+current_path = File.expand_path(File.dirname(__FILE__))
+require File.expand_path(File.join(File.dirname(__FILE__), "config/dependencies.rb"))
+
 namespace :selenium do
   
   desc "boot selenium"
