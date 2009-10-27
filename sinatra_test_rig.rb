@@ -1,5 +1,26 @@
 require 'rubygems'
 require 'sinatra'
+require 'json'
+
+valid_campaign = <<doc
+	{
+	  "products": 
+	  [
+		{
+		  "sku": "23420903294",
+		  "sku_hash": "239298928",
+		  "price": 0.99,
+		  "price_hash": "23423423dAV",
+		  "title": "Birthday Sex",
+		  "description": "What a song!" 
+		  "album_title": "Birthday Sex - The Album",
+		  "artist": "jeremih",
+		  "img_url": "http://static2.ak.musicane.com/thumbnailer/7738ba56-2fba-46c6-a3b2-e889810e30f3/131/131/0" 
+		}
+	  ]
+	}
+doc
+
 get '/test' do
   myvar = <<doc
    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
@@ -22,4 +43,11 @@ get '/test' do
       </embed>
     </object>
 doc
+end
+
+# curl http://localhost:4567/campaigns/123_456
+#get "/campaigns/:publisher_id-asset_id" do
+get "/campaigns/:publisherid_assetid" do	#<publisher_id>_<asset_id> tokenized component
+	content_type :json
+	valid_campaign 				#return valid_campaign under all conditions.
 end
