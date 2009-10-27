@@ -15,6 +15,7 @@ package
 	import gs.TweenLite;
 	import models.Campaign;
 	import Web.WebConfig;
+	import flash.text.TextFieldAutoSize;
 
 	public class SVS3 extends MovieClip
 	{
@@ -43,11 +44,14 @@ package
 		var albumField:TextField;
 		var titleField:TextField;
 		var textMask:MovieClip;
+		var priceField:TextField;		
 
 		// -- Actions
 		var closeAd;
 		var buy;
 		var logo;
+
+		
 
 		// -- Pill
 		var pill:MovieClip;
@@ -289,7 +293,19 @@ package
 			albumField.defaultTextFormat = albumFormat;
 			albumField.x = -2;
 			albumField.y = 30;
-			albumField.text = campaign.product.album_title;						
+			albumField.text = campaign.product.album_title;		
+
+			//Price textField
+			priceField = new TextField() ;
+			priceField.defaultTextFormat = artistFormat ;
+			priceField.autoSize = TextFieldAutoSize.RIGHT ;
+			priceField.x = 490;
+			priceField.y = -2;
+			priceField.text = "$" + campaign.product.price;			
+			
+			
+
+			
 			
 			var textWidth:int;
 			textWidth = titleField.width = artistField.width = albumField.width = (logo.x - 10) - (coverArt.x + coverArt.width + 10);
@@ -304,6 +320,7 @@ package
 			textMC.addChild(titleField);
 			textMC.addChild(albumField);
 			textMC.addChild(artistField);
+			textMC.addChild(priceField);
 			
 			inState.addChild(textMC);
 			inState.addChild(textMask);
