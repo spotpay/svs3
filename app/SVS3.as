@@ -131,6 +131,7 @@ package
 			
 			//Setup the container for the in state
 			inState = new MovieClip();
+			inState.name = "svs3_in_state";
 			inState.x = 0;
 			inState.y = 0;
 			addChild(inState);
@@ -170,6 +171,7 @@ package
 
 			//Position Close button
 			closeAd = ea.close;
+			closeAd.name = "svs3_close";
 			closeAd.x = stage.stageWidth - closeAd.width - 10;
 			closeAd.y = 12;
 			closeAd.alpha = 0;
@@ -177,6 +179,7 @@ package
 			
 			//Position Buy button
 			buy = ea.buyButton;
+			buy.name = "svs3_buy";
 			buy.x = closeAd.x - buy.width - 8;
 			buy.y = 28;
 			buy.alpha = 0;
@@ -198,13 +201,16 @@ package
 			
 			//Build Pill
 			pill = new MovieClip();
+			pill.name = "svs3_pill";
 			
 			playButton = ea.playButton;
+			playButton.name = "svs3_pill_play";
 			playButton.x = 92;
 			playButton.y = 5;
 			playButton.addEventListener(MouseEvent.CLICK, showAd);
 		
 			buySong = ea.buySong;
+			buySong.name = "svs3_pill_buy";
 			buySong.x = 15;
 			buySong.y = 5;
 			buySong.addEventListener(MouseEvent.CLICK, addToCart);

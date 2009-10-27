@@ -52,10 +52,25 @@
     <Compile Include="app\SVS3.as">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test\Tests\ArtistTest.as">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test\Tests\BuildTest.as">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test\Tests\CampaignTest.as">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test\Tests\mock\models\MockCrudModel.as">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="test\Tests\mock\models\MockProduct.as">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test\Tests\ProductTest.as">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test\Tests\UnmarshallOverrideTest.as">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="assets\animatedBleuBkg.fla">
