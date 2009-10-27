@@ -295,20 +295,24 @@ package
 			albumField.y = 30;
 			albumField.text = campaign.product.album_title;		
 
-			//Price textField
-			priceField = new TextField() ;
-			priceField.defaultTextFormat = artistFormat ;
-			priceField.autoSize = TextFieldAutoSize.RIGHT ;
-			priceField.x = 490;
-			priceField.y = -2;
-			priceField.text = "$" + campaign.product.price;			
-			
-			
-
-			
+				
 			
 			var textWidth:int;
-			textWidth = titleField.width = artistField.width = albumField.width = (logo.x - 10) - (coverArt.x + coverArt.width + 10);
+			textWidth = titleField.width = artistField.width = albumField.width = (buy.x - 10) - (coverArt.x + coverArt.width + 10);
+
+			//Price textField
+			var priceFormat:TextFormat = new TextFormat();
+			priceFormat.font = "Arial";
+			priceFormat.color = 0xFFFFFF;
+			priceFormat.size = 14;
+			priceFormat.align = "right";
+			
+			priceField = new TextField() ;
+			priceField.defaultTextFormat = priceFormat;
+			priceField.width = 100;
+			priceField.x = buy.x - priceField.width - 10 - textMC.x;
+			priceField.y = -2;
+			priceField.text = "$" + campaign.product.price;
 
 			textMask = new MovieClip();
 			textMask.graphics.beginFill(0x000000);
