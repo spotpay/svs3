@@ -1,6 +1,12 @@
-h1. 0.1.1 / 
+h1. 0.1.1 / 2009-10-??
 
 * added price field to SVS3 engagament interface
+* added flashtest.js to public/
+* refreshed test/selenium/selenese_helper and test/selenium/flash_test_helper because they were very out of date - should eventually put these in the flex_app_generator gem
+* added TestHarness v0.1.1
+* changed sinatra_test_rig so that it did not parameterize load_url, bkg_img, child_x and child_y
+* removed load_test, was no longer being used
+* added svs3_test
 
 === 0.1.0 / 2009-10-23
 

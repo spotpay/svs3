@@ -1,4 +1,22 @@
 module SeleneseHelper 
+  @@TestTimeout = 30*1000
+  @selenium
+  
+  def setup
+    @verification_errors = []
+    if $selenium
+      @selenium = $selenium
+    else
+      @selenium = Selenium::SeleneseInterpreter.new("localhost", 
+        4444, "*firefox #{ENV['FIREFOX_PATH']}", "http://localhost:4567", 10000);
+      @selenium.start
+    end
+  end
+  
+  def teardown
+    @selenium.stop unless $selenium
+    assert_equal [], @verification_errors
+  end
   
   def get_cookie(cookie_name)
     result = @selenium.get_eval("this.browserbot.getCurrentWindow().GetCookie('#{cookie_name}')")
