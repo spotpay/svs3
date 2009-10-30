@@ -7,9 +7,10 @@ require File.expand_path(File.dirname(__FILE__) + "/./selenese_helper")
 
 
 class Svs3Test < Test::Unit::TestCase
-  
   include SeleneseHelper
   include FlashTestHelper
+  
+
   
   def test_in_out
     open_widget({:width=>"680", :height=>"400"})
@@ -26,27 +27,27 @@ class Svs3Test < Test::Unit::TestCase
     invoke_result_string = invoke('validateUIElement', validate_svs3_pill_x_parameters)
     assert_equal(invoke_result_string, 'true')
 
-    validate_svs3_in_state_mask_y85_parameters =
+    validate_svs3_in_mask_y85_parameters =
     {
-    	:element_id => 'svs3_in_state',
-    	:property => 'mask.y',
+    	:element_id => 'svs3_in_mask',
+    	:property => 'y',
     	:value => 85
     }
-    invoke_result_string = invoke('validateUIElement', validate_svs3_in_state_mask_y85_parameters)
+    invoke_result_string = invoke('validateUIElement', validate_svs3_in_mask_y85_parameters)
     assert_equal(invoke_result_string, 'true')
 
     svs3_pill_play_parameters = {:element_id => 'svs3_pill_play'}
     invoke('clickUIElement', svs3_pill_play_parameters)
     wait_for_ready
 
-    validate_svs3_in_state_mask_y0_parameters =
+    validate_svs3_in_mask_y0_parameters =
     {
-    	:element_id => 'svs3_in_state',
-    	:property => 'mask.y',
+    	:element_id => 'svs3_in_mask',
+    	:property => 'y',
     	:value => 0
     }
-    invoke_result_string = invoke('validateUIElement', validate_svs3_in_state_mask_y0_parameters)
-    assert_equal(invoke_result_string, 'true')	
+    invoke_result_string = invoke('validateUIElement', validate_svs3_in_mask_y0_parameters)
+    assert_equal(invoke_result_string, 'true')
   end
   
   def test_svs3_buy
@@ -61,6 +62,7 @@ class Svs3Test < Test::Unit::TestCase
       :property => 'visible',
       :value => true
     }
+    
     invoke_result_string = invoke('validateUIElement', validate_splashPage_visible_parameters)
     assert_equal(invoke_result_string, 'true')  
   end

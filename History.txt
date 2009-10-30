@@ -1,5 +1,6 @@
 h1. 0.1.1 / 2009-10-??
 
+* implemented the svs3 selenium test cases for 1050
 * added animation_complete_event.swc to the libs so that:
 ** fire on load pill and on load of in state
 * added price field to SVS3 engagament interface
