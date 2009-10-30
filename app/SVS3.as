@@ -16,6 +16,7 @@ package
 	import models.Campaign;
 	import Web.WebConfig;
 	import flash.text.TextFieldAutoSize;
+	import Musicane.Events.AnimationCompleteEvent;
 
 	public class SVS3 extends MovieClip
 	{
@@ -59,7 +60,7 @@ package
 		var buySong;		
 
 		var widgetPayApiUrl:String = WebConfig.Get().ServiceUrl+"/WidgetPayApi.swf";
-		var widgetPayApi:DisplayObject = null;
+		var widgetPayApi:MovieClip = null;
 		var addedToStage:Boolean = false;
 
 		public function SVS3():void
@@ -87,6 +88,7 @@ package
 			widgetPayApi.addEventListener(Event.CANCEL, handleApiCancel);
 			widgetPayApi.addEventListener(Event.COMPLETE, handleApiComplete);
 			widgetPayApi.addEventListener(Event.INIT, handleApiInit);
+			widgetPayApi.addEventListener(AnimationCompleteEvent.ANIMATION_COMPLETE, animationComplete);
 			addChild(widgetPayApi);
 
 			if(addedToStage)
@@ -197,6 +199,7 @@ package
 			
 			//Mask for outro
 			inMask = new MovieClip();
+			inMask.name = "svs3_in_mask";
 			inMask.graphics.beginFill(0x000000);
 			inMask.graphics.drawRect(0,0,stage.stageWidth, 85);
 			
@@ -480,6 +483,7 @@ package
 	
 			inState.mask = null;
 			inState.mask = inMask;
+			animationComplete();
 		}
 
 		private function playIntro():void
@@ -497,7 +501,12 @@ package
 			//Scripted Hide animation queue
 			TweenLite.to(bkgMask, .4, {y:5, height:80});
 			TweenLite.to(inMask, .2, {y:85, delay:.3, ease:Sine.easeIn});
-			TweenLite.to(pill, .3, {x:0, delay:.6, ease:Sine.easeOut});		
+			TweenLite.to(pill, .3, {x:0, delay:.6, ease:Sine.easeOut, onComplete:animationComplete});		
+		}
+		
+		private function animationComplete(e:Event = null):void
+		{
+			dispatchEvent(new AnimationCompleteEvent("animationComplete"));
 		}
 
 		private function playBlue():void

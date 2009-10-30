@@ -1,5 +1,7 @@
 h1. 0.1.1 / 2009-10-??
 
+* added animation_complete_event.swc to the libs so that:
+** fire on load pill and on load of in state
 * added price field to SVS3 engagament interface
 * added flashtest.js to public/
 * refreshed test/selenium/selenese_helper and test/selenium/flash_test_helper because they were very out of date - should eventually put these in the flex_app_generator gem
