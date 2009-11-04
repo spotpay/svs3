@@ -40,10 +40,8 @@
 				var ts:TestSuite = new TestSuite();
 				
 				//***************** ADD TESTS HERE ********************
-				ts.addTest(new TestSuite(BuildTest));
 				ts.addTest(new TestSuite(CampaignTest));
-				ts.addTest(new TestSuite(ProductTest));
-				ts.addTest(new TestSuite(ArtistTest));				
+				ts.addTest(new TestSuite(ProductTest));			
 				
 				return ts;
 			}

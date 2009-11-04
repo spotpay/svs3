@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <project name="SVS3" default="build">
-	
 	<!-- Environment-->
 	<property environment="env"/>
+
+	<condition property="flex_env" value="development" else="${env.FLEX_ENV}">  	  
+	    <equals arg1="${env.FLEX_ENV}" arg2="$${env.FLEX_ENV}" />	  
+	</condition>
+
 	<property name="FLEX_HOME" value="${env.FLEX_HOME}" />
-	<property name="adl" location="${FLEX_HOME}/bin/adl.exe" />
+    <property name="adl" location="${env.ADL_PATH}" />
 	
 	<!-- Import Flex ANT Tasks -->
-	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />	
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 	
 	<!-- Application Compiler Info -->
 	<property name="app.name" value="SVS3"/>

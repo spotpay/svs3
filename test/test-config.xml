@@ -70,7 +70,7 @@
 		<!-- verbose-stacktraces turns on the display of stack traces for uncaught runtime errors. 
 			Adds about 50k, turn off for production
 		-->
-		<verbose-stacktraces>false</verbose-stacktraces>
+		<verbose-stacktraces>true</verbose-stacktraces>
 		
 		<!-- List of CSS or SWC files to apply as a theme.
 		<theme>

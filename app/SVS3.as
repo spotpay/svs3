@@ -1,4 +1,4 @@
-package 
+package
 {
 	import fl.motion.easing.Sine;
 	import flash.display.DisplayObject;
@@ -14,10 +14,10 @@ package
 	import flash.text.TextFormat;
 	import gs.TweenLite;
 	import models.Campaign;
-	import Web.WebConfig;
 	import flash.text.TextFieldAutoSize;
 	import Musicane.Events.AnimationCompleteEvent;
-
+	import Musicane.SVS3.Config;
+	
 	public class SVS3 extends MovieClip
 	{
 		//Embedded class
@@ -59,7 +59,6 @@ package
 		var playButton;
 		var buySong;		
 
-		var widgetPayApiUrl:String = WebConfig.Get().ServiceUrl+"/WidgetPayApi.swf";
 		var widgetPayApi:MovieClip = null;
 		var addedToStage:Boolean = false;
 
@@ -78,7 +77,7 @@ package
 		{
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadWidgetPayApiComplete);
-			loader.load(new URLRequest(widgetPayApiUrl));
+			loader.load(new URLRequest(Config.widgetPayApiUrl));
 		}
 
 		private function loadWidgetPayApiComplete(e:Event):void
@@ -237,10 +236,11 @@ package
 		private function loadFeedable():void
 		{
 			campaign = new Campaign();
-			loadImage();
+			campaign.addEventListener(Event.COMPLETE, loadImage);
+			campaign.Show("123_456");
 		}
 
-		private function loadImage():void
+		private function loadImage(e:Event):void
 		{
 			var ldr:Loader = new Loader();
 			ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, imageComplete);
@@ -290,7 +290,7 @@ package
 			artistField.defaultTextFormat = artistFormat;
 			artistField.x = -2;
 			artistField.y = 14;
-			artistField.text = campaign.product.artist.name;						
+			artistField.text = campaign.product.artist;						
 			
 			albumField = new TextField();
 			albumField.defaultTextFormat = albumFormat;
@@ -315,7 +315,7 @@ package
 			priceField.width = 100;
 			priceField.x = buy.x - priceField.width - 10 - textMC.x;
 			priceField.y = -2;
-			priceField.text = "$" + campaign.product.price;
+			priceField.text = campaign.product.PriceDisplay;
 
 			textMask = new MovieClip();
 			textMask.graphics.beginFill(0x000000);

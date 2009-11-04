@@ -1,5 +1,15 @@
 h1. 0.1.1 / 2009-10-??
 
+* added Musicane.SVS3.Config
+* modified SVS3.as to leverage Musicane.SVS3.Config
+* Meeting Campaign spec:
+** Removed app.models.Artist
+** Changed price to int in app.models.Product
+** Added PriceDisplay to app.models.Product
+** Changed sinatra_test_rig to meet spec
+* made compatible with FlashRestUtils v1.0.0 by replacing libs/MusicaneWeb.swc with FlashRestUtils.swc
+** Removed CrudModel
+* Fixed adl path in build.xml to use environment variable
 * implemented the svs3 selenium test cases for 1050
 * added animation_complete_event.swc to the libs so that:
 ** fire on load pill and on load of in state

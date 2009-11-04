@@ -4,18 +4,23 @@ require 'json'
 
 valid_campaign = <<doc
 	{
+	  "start_date": "/Date(39482394834)/",
+	  "end_date": "/Date(323292922)/",
+	  "publisher_id": 234342,
+	  "asset_id": 23423432,
 	  "products": 
 	  [
 		{
 		  "sku": "23420903294",
 		  "sku_hash": "239298928",
-		  "price": 0.99,
+		  "price": 99,
+		  "currency": "USD",
 		  "price_hash": "23423423dAV",
 		  "title": "Birthday Sex",
-		  "description": "What a song!" 
+		  "description": "What a song!", 
 		  "album_title": "Birthday Sex - The Album",
 		  "artist": "jeremih",
-		  "img_url": "http://static2.ak.musicane.com/thumbnailer/7738ba56-2fba-46c6-a3b2-e889810e30f3/131/131/0" 
+		  "img_url": "http://localhost:4567/albumArt.jpg" 
 		}
 	  ]
 	}

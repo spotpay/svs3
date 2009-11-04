@@ -2,3 +2,4 @@ bin/
 flex-bin/
 bin-debug/
 log/
+test/reports/
