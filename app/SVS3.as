@@ -87,7 +87,6 @@ package
 			widgetPayApi.addEventListener(Event.CANCEL, handleApiCancel);
 			widgetPayApi.addEventListener(Event.COMPLETE, handleApiComplete);
 			widgetPayApi.addEventListener(Event.INIT, handleApiInit);
-			widgetPayApi.addEventListener(AnimationCompleteEvent.ANIMATION_COMPLETE, animationComplete);
 			addChild(widgetPayApi);
 
 			if(addedToStage)

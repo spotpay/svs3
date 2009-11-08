@@ -47,7 +47,7 @@ class Svs3Test < Test::Unit::TestCase
     	:value => 0
     }
     invoke_result_string = invoke('validateUIElement', validate_svs3_in_mask_y0_parameters)
-    assert_equal(invoke_result_string, 'true')
+    assert_equal('true', invoke_result_string)
   end
   
   def test_svs3_buy
@@ -63,8 +63,8 @@ class Svs3Test < Test::Unit::TestCase
       :value => true
     }
     
-    invoke_result_string = invoke('validateUIElement', validate_splashPage_visible_parameters)
-    assert_equal(invoke_result_string, 'true')  
+    invoke_result_string = invoke('validateUIElement', validate_splashPage_visible_parameters);
+    assert_equal('true', invoke_result_string)  
   end
       
   def test_pill_buy
@@ -83,7 +83,7 @@ class Svs3Test < Test::Unit::TestCase
       :property => 'visible',
       :value => true
     }
-    invoke_result_string = invoke('validateUIElement', validate_splashPage_visible_parameters)
-    assert_equal(invoke_result_string, 'true')  
+    invoke_result_string = invoke('validateUIElement', validate_splashPage_visible_parameters);
+    assert_equal('true', invoke_result_string)  
   end  
 end
