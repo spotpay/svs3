@@ -1,5 +1,13 @@
 h1. 0.1.1 / 2009-10-??
 
+* Removing the Tofino project files from the repo
+* 
+
+h2. Ref Issue #1087
+
+* Added the brightcove swc library
+* Implemented the BrightcoveAdSwf wrapper class
+
 * added Musicane.SVS3.Config
 * modified SVS3.as to leverage Musicane.SVS3.Config
 * Meeting Campaign spec:

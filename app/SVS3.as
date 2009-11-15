@@ -17,6 +17,8 @@ package
 	import flash.text.TextFieldAutoSize;
 	import Musicane.Events.AnimationCompleteEvent;
 	import Musicane.SVS3.Config;
+    import flash.system.LoaderContext;
+	import flash.system.SecurityDomain;
 	
 	public class SVS3 extends MovieClip
 	{
@@ -242,8 +244,10 @@ package
 		private function loadImage(e:Event):void
 		{
 			var ldr:Loader = new Loader();
+			var context:LoaderContext = new LoaderContext();
+			context.securityDomain = SecurityDomain.currentDomain;
 			ldr.contentLoaderInfo.addEventListener(Event.COMPLETE, imageComplete);
-			ldr.load(new URLRequest(campaign.product.img_url));
+			ldr.load(new URLRequest(campaign.product.img_url), context);
 		}
 
 		private function imageComplete(e:Event):void
@@ -396,85 +400,6 @@ package
 			TweenLite.to(showMask, .5, {y:yVal, alpha:1, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
 		}
 		
-		/*
-		
-		//Feathered wipe, no fade
-		public function showAd(e:Event = null):void
-		{			
-			bkgMask.height = 65;
-			bkgMask.y = 20;
-			
-			inMask.y = 0;
-			inMask.visible = false;
-
-			var rad:Number = 270*Math.PI/180;
-			var what_is_the_matrix:Matrix = new Matrix()
-			what_is_the_matrix.createGradientBox(bkgMask.width, 85, rad);
-
-			showMask = new MovieClip();
-			showMask.graphics.beginGradientFill(GradientType.LINEAR, [0x000000, 0x000000, 0x000000], [1,1,0], [0,220,255], what_is_the_matrix);
-			showMask.graphics.drawRect(0,0, bkgMask.width, 85);
-			
-			var yVal:int = (this.parent is Loader) ? this.parent.y : this.y;
-			showMask.y = yVal + 85;
-
-			inState.addChild(showMask);			
-			inState.cacheAsBitmap = true;
-			showMask.cacheAsBitmap = true;
-			
-			inState.mask = showMask;
-
-			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
-			TweenLite.to(showMask, .5, {y:yVal, delay:.2, ease:Sine.easeOut, onComplete:resetMask});
-		}
-
-		
-		//Fade in + wipe with Hard Edge
-		public function showAd(e:Event = null):void
-		{			
-			bkgMask.height = 65;
-			bkgMask.y = 20;
-			
-			inMask.y = 85;
-			inMask.alpha = 0;
-			
-			inState.cacheAsBitmap = true;
-			inMask.cacheAsBitmap = true;
-			
-			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
-			TweenLite.to(inMask, .5, {y:0, alpha:1, delay:.4});
-		}
-		
-		//Fade in no wipe
-		public function showAd(e:Event = null):void
-		{			
-			bkgMask.height = 65;
-			bkgMask.y = 20;
-			
-			inMask.y = 0;
-			inMask.alpha = 0;
-			
-			inState.cacheAsBitmap = true;
-			inMask.cacheAsBitmap = true;
-			
-			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
-			TweenLite.to(inMask, .5, {alpha:1, delay:.4});
-		}
-			
-		
-		//Straight wipe, no fade
-		public function showAd(e:Event = null):void
-		{			
-			bkgMask.height = 65;
-			bkgMask.y = 20;
-			
-			inMask.y = 85;
-			
-			TweenLite.to(pill, .25, {x:-(pill.width), ease:Sine.easeIn});
-			TweenLite.to(inMask, .5, {y:0, delay:.4});
-		}
-		*/
-		
 		private function resetMask():void
 		{
 			showMask.visible = false;
@@ -584,7 +509,7 @@ package
 		{
 			quickHide();
 			var obj:Object = {a:"hi"};
-			Object(widgetPayApi).AddToCartAndCheckout(obj);
+			widgetPayApi.AddToCartAndCheckout(obj);
 		}
 	}
 }
