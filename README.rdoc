@@ -6,6 +6,40 @@ A lower-third engagement interface that aims to advertise a single digital song 
 
 == Getting Started
 
+=== Compiling the app
+
+First, you'll need the Flex 3 SDK 3.1.0.2710 (http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+3)
+
+Then, you'll need Ant (http://ant.apache.org/bindownload.cgi)
+
+Lastly, you'll need the following environment variables. Be careful to make sure the paths match, your system may not have the same directory organization.
+
+export PATH=/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.1.0.2710/bin:$PATH
+export FLEX_HOME=/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.1.0.2710
+
+Now compile the app:
+
+$svs3> ant build
+
+The swf will be named bin/SVS3.swf.
+
+=== Viewing the swf
+
+To run the server, you'll need ruby 1.8.6 or higher and the following gems:
+
+gem install haml
+gem install sinatra
+
+Run the server with:
+
+$svs3>ruby sinatra_test_rig.rb
+
+View the swf in the browser:
+
+http://localhost:4567/test
+
+== Testing
+
 === Install the selenium-ruby gem
 
 @gem install Selenium@

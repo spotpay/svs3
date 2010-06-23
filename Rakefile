@@ -36,3 +36,14 @@ namespace :git do
   end
 end
 
+namespace :spotpay do
+  namespace :svs3 do
+    desc "Copies config/<env>.as config file into app/ and starts compiling. ex: rake wp:ui env=test"
+    task :build do
+      env = ENV['env'] || "development"
+      sh "cp config/#{env}.as app/Config.as"
+      sh "ant build"
+      sh "cp ./bin/SVS3.swf ../../pineapple/public/widgetpay_client/"    
+    end
+  end
+end

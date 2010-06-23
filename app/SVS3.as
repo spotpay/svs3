@@ -16,13 +16,102 @@ package
 	import models.Campaign;
 	import flash.text.TextFieldAutoSize;
 	import Musicane.Events.AnimationCompleteEvent;
-	import Musicane.SVS3.Config;
+	import SpotPay.SVS3.Config;
     import flash.system.LoaderContext;
 	import flash.system.SecurityDomain;
 	
 	public class SVS3 extends MovieClip
 	{
-		//Embedded class
+
+		var spotPayApi:MovieClip = null;
+		var addedToStage:Boolean = false;
+
+		public function SVS3():void
+		{
+			loadSpotPayApi();
+		}
+
+		private function loadSpotPayApi():void
+		{
+		  //create a new loader and prepare an event listener
+			var loader:Loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadSpotPayApiComplete);
+			
+			//load the swf.
+			loader.load(new URLRequest(Config.SpotPayApiUrl));
+		}
+		
+
+		private function loadSpotPayApiComplete(e:Event):void
+		{
+		  //get access to the api.
+			spotPayApi = e.target.loader.content;
+			
+			//attach some	event listeners and handlers.
+			spotPayApi.addEventListener(Event.CANCEL, handleApiCancel);
+			spotPayApi.addEventListener(Event.COMPLETE, handleApiComplete);
+			spotPayApi.addEventListener(Event.INIT, handleApiInit);
+			
+			//put the api into the display hierarchy.
+			addChild(spotPayApi);
+			
+			//build your UI.
+			build();
+		}
+		
+		// Here's an example of calling the
+		// API function "AddToCartAndCheckout"
+    public function addToCart(e:MouseEvent):void
+    {
+       //doing a quick UI transition.
+       quickHide();
+
+       //In this example the user is buying 2 t-shirts. Ths
+       //shirt, Justin Timeberlake's mens XL ringer 
+       //"Sexy Back Backed Top", happens to have product variant
+       //id=429921481
+       var cart:Object = {variants: {"429921481": 2}};
+
+       //pass the cart into the api and crack a brew...
+       spotPayApi.AddToCartAndCheckout(cart);
+    }
+    
+		//the rest of these functions are event handler methods for the api. 
+		//implement whatever you like inside of them to control your ui
+		//in response to these events.
+		
+		//called when the pipeline begins loading.
+		private function handleApiInit(e:Event):void
+		{
+			dispatchEvent(new Event("init"));
+		}		
+	
+	  //called when the user cancels out of the checkout pipeline.
+		private function handleApiCancel(e:Event):void
+		{
+			quickShow();
+			dispatchCompleteEvent();
+		}
+
+    //called when the user finishes the checkout pipeline.
+		private function handleApiComplete(e:Event):void
+		{
+			dispatchCompleteEvent();
+		}
+		
+		private function dispatchCompleteEvent():void
+		{
+			dispatchEvent(new Event("complete"));
+		}
+
+
+
+
+    //** IMPORTANT! Everything Else Is Building the SVS3 Interface 
+    //** and can safely be ignored by anyone looking to 
+    //** understand spotpay integration. ******//
+    
+    //Embedded class
 		var ea:EmbeddedAssets;
 
 		//Model class
@@ -59,77 +148,13 @@ package
 		// -- Pill
 		var pill:MovieClip;
 		var playButton;
-		var buySong;		
-
-		var widgetPayApi:MovieClip = null;
-		var addedToStage:Boolean = false;
-
-		public function SVS3():void
-		{
-			addEventListener(Event.ADDED_TO_STAGE, handleAdded);
-			loadWidgetPayApi();
-		}
+		var buySong;	
 		
 		public function onVideoComplete():void
 		{
 			quickHide();
-		}
-
-		private function loadWidgetPayApi():void
-		{
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadWidgetPayApiComplete);
-			loader.load(new URLRequest(Config.widgetPayApiUrl));
-		}
-
-		private function loadWidgetPayApiComplete(e:Event):void
-		{
-			widgetPayApi = e.target.loader.content;
-			
-			widgetPayApi.addEventListener(Event.CANCEL, handleApiCancel);
-			widgetPayApi.addEventListener(Event.COMPLETE, handleApiComplete);
-			widgetPayApi.addEventListener(Event.INIT, handleApiInit);
-			addChild(widgetPayApi);
-
-			if(addedToStage)
-			{
-				build();
-			}
-		}
+		}	
 		
-		private function handleApiInit(e:Event):void
-		{
-			dispatchEvent(new Event("init"));
-		}		
-	
-		private function handleApiCancel(e:Event):void
-		{
-			quickShow();
-			dispatchCompleteEvent();
-		}
-
-		private function handleApiComplete(e:Event):void
-		{
-			dispatchCompleteEvent();
-		}
-		
-		private function dispatchCompleteEvent():void
-		{
-			dispatchEvent(new Event("complete"));
-		}
-
-		private function handleAdded(e:Event):void
-		{
-			if(widgetPayApi != null)
-			{
-				build();
-			}
-			else
-			{
-				addedToStage = true;
-			}
-		}
-
 		//Build fluid interface
 		private function build():void
 		{
@@ -504,12 +529,5 @@ package
 			var tc:Number = ts*t;
 			return b+c*(-0.7205613178767587*tc*ts + 1.71446003660769*ts*ts + 0.2867602196461263*tc + -4.441732763880413*ts + 4.1610738255033555*t);
 		}	
-
-		public function addToCart(e:MouseEvent):void
-		{
-			quickHide();
-			var obj:Object = {a:"hi"};
-			widgetPayApi.AddToCartAndCheckout(obj);
-		}
 	}
 }
